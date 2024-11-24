@@ -1,6 +1,6 @@
 name: Deploy
 
-on: 
+on:
   push:
     branches:
       - main
@@ -9,13 +9,13 @@ on:
 jobs:
   test-lint:
     uses: ./.github/workflows/test-and-lint.yml
-    name: Test and Lint 
+    name: Test and Lint
     secrets:
       DOCKERHUB_USER: ${{ vars.DOCKERHUB_USER }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   deploy:
-    name : Deploy
+    name: Deploy
     runs-on: ubuntu-22.04
     needs: [test-lint]
     steps:
@@ -35,7 +35,7 @@ jobs:
         run: |
           aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com
           docker build --compress -t ${{ vars.ECR_REPO_APP }}:$GITHUB_SHA .
-          docker push  ${{ vars.ECR_REPO_APP }}:$GITHUB_SHA
+          docker push ${{ vars.ECR_REPO_APP }}:$GITHUB_SHA
           docker build --compress -t ${{ vars.ECR_REPO_PROXY }}:$GITHUB_SHA proxy/
           docker push ${{ vars.ECR_REPO_PROXY }}:$GITHUB_SHA
 
