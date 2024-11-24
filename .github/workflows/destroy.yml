@@ -5,7 +5,7 @@ on:
     inputs:
       environment:
         type: choice
-        description: WHich environment to remove AWS resources for?
+        description: Which environment to remove AWS resources for?
         options:
           - staging
           - prod #allows prod to be turned off to save money in tutorial
@@ -16,12 +16,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout/@v4
-      - name: Terrafrom Destroy
+      - name: Terraform Destroy
         env: 
           AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           export TF_WORKSPACE=${{ github.event.inputs.environment }}
           cd infra/
-          docker compose run --rm terrafrom -chdir/ init
-          docker compose run --rm terrafrom -chdir/ destroy -auto-approve
+          docker compose run --rm terraform -chdir/ init
+          docker compose run --rm terraform -chdir/ destroy -auto-approve
