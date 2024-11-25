@@ -9,14 +9,13 @@ resource "aws_db_subnet_group" "main" {
     aws_subnet.private_b.id
   ]
 
-
   tags = {
     Name = "${local.prefix}-db-subnet-group"
   }
 }
 
 resource "aws_security_group" "rds" {
-  description = "Allow access to the RWS databse instance"
+  description = "Allow access to the RDS databse instance"
   name        = "${local.prefix}-rds-inbound-access"
   vpc_id      = aws_vpc.main.id
 
@@ -40,7 +39,7 @@ resource "aws_db_instance" "main" {
   engine_version             = "15.3"
   auto_minor_version_upgrade = true
   instance_class             = "db.t4g.micro"
-  username                   = var.dbb_username
+  username                   = var.db_username
   password                   = var.db_password
   skip_final_snapshot        = true
   db_subnet_group_name       = aws_db_subnet_group.main.name
