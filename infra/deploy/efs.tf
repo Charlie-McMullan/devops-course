@@ -3,7 +3,7 @@
 #########################
 
 resource "aws_efs_file_system" "media" {
-  encrypted = aws_lb_target_group.api
+  encrypted = true
   tags = {
     Name = "${local.prefix}-media"
   }
